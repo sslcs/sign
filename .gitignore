@@ -1,0 +1,23 @@
+*~
+*.apk
+*.zip
+*.log
+.DS_Store
+R.java.d
+bin/
+gen/
+build/
+proguard_logs/
+.idea/
+.gradle/*
+*.bin
+.navigation/
+captures/
+*.iml
+local.properties
+gradle.properties
+/libraries/hellocharts-library/pom.xml
+将删除 .gradle/
+将删除 happygo/src/main/java/com/happygo/android/fragment/me/info/FragmentMeRecharge_bak.java
+将删除 lib-lazy-view-pager/libs/
+将删除 lib-lazy-view-pager/src/main/res/drawable/
