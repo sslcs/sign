@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">我要骑车</string>
+    <string name="btn_scan">扫码骑车</string>
+    <string name="btn_finish">结束用车</string>
+    <string name="unlock_time">开锁时间：%1$s</string>
+    <string name="title_unlock">车辆解锁</string>
+    <string name="tip_password">解锁密码</string>
+    <string name="tip_wait">请稍候</string>
 </resources>
