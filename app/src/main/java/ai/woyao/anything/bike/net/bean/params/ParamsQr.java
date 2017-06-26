@@ -6,6 +6,6 @@ package ai.woyao.anything.bike.net.bean.params;
 
 public class ParamsQr {
     public String bike_id;
-    public long lat;
-    public long lng;
+    public double lat;
+    public double lng;
 }

@@ -354,8 +354,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater menuInflater = getMenuInflater();
-    menuInflater.inflate(R.menu.capture, menu);
+//    MenuInflater menuInflater = getMenuInflater();
+//    menuInflater.inflate(R.menu.capture, menu);
     return super.onCreateOptionsMenu(menu);
   }
 
@@ -618,9 +618,9 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   // Briefly show the contents of the barcode, then handle the result outside Barcode Scanner.
   private void handleDecodeExternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
 
-    if (barcode != null) {
+//    if (barcode != null) {
 //      viewfinderView.drawResultBitmap(barcode);
-    }
+//    }
 
     long resultDurationMS;
     if (getIntent() == null) {
@@ -630,13 +630,13 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                                                   DEFAULT_INTENT_RESULT_DURATION_MS);
     }
 
-    if (resultDurationMS > 0) {
-      String rawResultString = String.valueOf(rawResult);
-      if (rawResultString.length() > 32) {
-        rawResultString = rawResultString.substring(0, 32) + " ...";
-      }
-      statusView.setText(getString(resultHandler.getDisplayTitle()) + " : " + rawResultString);
-    }
+//    if (resultDurationMS > 0) {
+//      String rawResultString = String.valueOf(rawResult);
+//      if (rawResultString.length() > 32) {
+//        rawResultString = rawResultString.substring(0, 32) + " ...";
+//      }
+//      statusView.setText(getString(resultHandler.getDisplayTitle()) + " : " + rawResultString);
+//    }
 
     if (copyToClipboard && !resultHandler.areContentsSecure()) {
       CharSequence text = resultHandler.getDisplayContents();

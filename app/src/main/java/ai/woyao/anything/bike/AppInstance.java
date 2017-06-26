@@ -5,7 +5,8 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.text.TextUtils;
 
-import ai.woyao.anything.bike.BuildConfig;
+import com.umeng.analytics.MobclickAgent;
+
 import ai.woyao.anything.bike.utils.ChannelUtils;
 import ai.woyao.anything.bike.utils.SystemInfo;
 
@@ -37,7 +38,9 @@ public class AppInstance extends Application {
         super.onCreate();
         mInstance = this;
 
+        MobclickAgent.setDebugMode(!BuildConfig.DEBUG);
 
+        // 7.0文件读写权限兼容
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());

@@ -1,6 +1,6 @@
 <resources>
     <style name="AppTheme" parent="AppTheme.Base">
         <!--Navigation bar color-->
-        <item name="android:navigationBarColor">@color/accent_material_light</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 </resources>

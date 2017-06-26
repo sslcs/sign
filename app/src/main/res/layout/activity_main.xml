@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+        android:background="@android:color/white"
         tools:context=".bike.ui.MainActivity">
         <include layout="@layout/include_title"/>
 
@@ -13,10 +14,55 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:background="@drawable/stroke_yellow"
+            android:gravity="center"
             android:onClick="onClickNew"
             android:padding="10dp"
-            android:gravity="center"
-            android:background="@drawable/stroke_yellow"
-            android:text="@string/btn_scan"/>
+            android:text="@string/btn_scan"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickNew"
+            android:layout_centerInParent="true"
+            android:src="@drawable/btn_unlock"/>
+
+        <TextView
+            android:textColor="#333333"
+            android:text="@string/label_support_bikes"
+            android:layout_marginBottom="20dp"
+            android:layout_above="@+id/v_bikes"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:id="@+id/v_bikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tv_ofo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_ofo"
+                android:drawablePadding="5dp"
+                android:paddingBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="#333333"
+                android:text="@string/bike_name_ofo"/>
+            <TextView
+                android:layout_toRightOf="@id/tv_ofo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_mo"
+                android:drawablePadding="5dp"
+                android:paddingBottom="20dp"
+                android:textColor="#333333"
+                android:text="@string/bike_name_mo"/>
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

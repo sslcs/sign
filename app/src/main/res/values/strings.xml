@@ -6,4 +6,10 @@
     <string name="title_unlock">车辆解锁</string>
     <string name="tip_password">解锁密码</string>
     <string name="tip_wait">请稍候</string>
+    <string name="tip_open_gps">请打开手机定位！</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="bike_name_mo">摩拜单车</string>
+    <string name="bike_name_ofo">ofo小黄车</string>
+    <string name="label_support_bikes">支持以下单车</string>
 </resources>

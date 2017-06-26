@@ -4,13 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ai.woyao.anything.bike">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name="ai.woyao.anything.bike.AppInstance"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="name,icon,label,theme,allowBackup">
         <activity android:name=".ui.MainActivity">
@@ -22,6 +28,13 @@
         </activity>
         <activity android:name=".ui.PasswordActivity">
         </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59509679734be46b00000abe"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="WoYao"/>
     </application>
 
 </manifest>
