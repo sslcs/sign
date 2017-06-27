@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,7 +14,7 @@ import java.util.Date;
 import ai.woyao.anything.bike.R;
 import ai.woyao.anything.bike.databinding.ActivityPasswordBinding;
 
-public class PasswordActivity extends AppCompatActivity {
+public class PasswordActivity extends BaseActivity {
     private final static String EXTRA_PASSWORD = "password";
 
     private ActivityPasswordBinding binding;

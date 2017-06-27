@@ -12,4 +12,5 @@
     <string name="bike_name_mo">摩拜单车</string>
     <string name="bike_name_ofo">ofo小黄车</string>
     <string name="label_support_bikes">支持以下单车</string>
+    <string name="tip_locating">定位中，请稍后！</string>
 </resources>

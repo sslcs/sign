@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +16,10 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.google.gson.reflect.TypeToken;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -40,16 +43,20 @@ public class MainActivity extends TaskActivity {
     private final int REQUEST_CODE_PERMISSION_CAMERA = 101;
     private final int REQUEST_CODE_GPS_SETTING = 103;
 
+    private AMapLocationClient mLocationClient;
+    private AMapLocation mLocation;
+    private String bikeId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
-        checkLocation(null);
+        listenLocation();
     }
 
-    private void checkLocation(ParamsQr paramsQr) {
+    private void listenLocation() {
         if (!hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) && !hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
             String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_PERMISSION_LOCATION);
@@ -57,36 +64,63 @@ public class MainActivity extends TaskActivity {
         }
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location == null) {
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (!locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.tip_open_gps));
+            builder.setPositiveButton(R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            // 转到手机设置界面，用户设置GPS
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent, REQUEST_CODE_GPS_SETTING);
+                        }
+                    });
+            builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int arg1) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
         }
 
-        if (location == null) {
-            if (!locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setMessage(getString(R.string.tip_open_gps));
-                dialog.setPositiveButton(R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                // 转到手机设置界面，用户设置GPS
-                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivityForResult(intent, REQUEST_CODE_GPS_SETTING);
-                            }
-                        });
-                dialog.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        dialog.dismiss();
+        mLocationClient = new AMapLocationClient(this);
+        //设置定位监听
+        mLocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation location) {
+                if (location == null) return;
+                if (location.getErrorCode() == 0) {
+                    //定位成功回调信息，设置相关消息
+                    DebugLog.e("getLatitude : " + location.getLatitude() + " getLongitude : " + location.getLongitude());
+                    mLocation = location;
+                    if (bikeId != null) {
+                        unlockBike();
                     }
-                });
-                dialog.show();
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    DebugLog.e("location Error, ErrCode:"
+                            + location.getErrorCode() + ", errInfo:"
+                            + location.getErrorInfo());
+                }
             }
-        } else if (paramsQr != null) {
-            paramsQr.lat = location.getLatitude();
-            paramsQr.lng = location.getLongitude();
-        }
+        });
+
+        //声明mLocationOption对象
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(20000);
+        //设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mLocationClient.startLocation();
     }
 
     public void onClickNew(View view) {
@@ -102,7 +136,7 @@ public class MainActivity extends TaskActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CODE_GPS_SETTING == requestCode) {
-            checkLocation(null);
+            listenLocation();
             return;
         }
 
@@ -112,16 +146,22 @@ public class MainActivity extends TaskActivity {
             if (TextUtils.isEmpty(result)) return;
 
             DebugLog.e("result : " + result);
-            unlock(result);
+            bikeId = result;
+            unlockBike();
         }
     }
 
-    private void unlock(String bikeId) {
-        String action = Action.ACTION_UNLOCK_BIKE;
+    private void unlockBike() {
+        if (mLocation == null) {
+            Toast.makeText(this, R.string.tip_locating, Toast.LENGTH_LONG).show();
+            return;
+        }
 
+        String action = Action.ACTION_UNLOCK_BIKE;
         ParamsQr paramsQr = new ParamsQr();
         paramsQr.bike_id = bikeId;
-        checkLocation(paramsQr);
+        paramsQr.lat = mLocation.getLatitude();
+        paramsQr.lng = mLocation.getLongitude();
 
         NetParams.Builder builder = new NetParams.Builder();
         builder.add(action, action, paramsQr);
@@ -136,6 +176,7 @@ public class MainActivity extends TaskActivity {
             @Override
             public void onSuccess(ServerResponse response) {
                 DebugLog.e("onSuccess");
+                bikeId = null;
                 String encoded = response.data;
                 byte[] decode = Base64.decode(encoded, Base64.DEFAULT);
                 String data = new String(decode);
@@ -156,6 +197,7 @@ public class MainActivity extends TaskActivity {
 
             @Override
             public void onFail(Throwable e) {
+                bikeId = null;
                 DebugLog.e(e);
                 Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -177,7 +219,25 @@ public class MainActivity extends TaskActivity {
         if (requestCode == REQUEST_CODE_PERMISSION_CAMERA) {
             onClickNew(null);
         } else if (requestCode == REQUEST_CODE_PERMISSION_LOCATION) {
-            checkLocation(null);
+            listenLocation();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLocationClient.startLocation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLocationClient.stopLocation();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocationClient.onDestroy();
     }
 }
