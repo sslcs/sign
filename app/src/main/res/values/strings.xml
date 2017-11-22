@@ -1,16 +1,12 @@
 <resources>
-    <string name="app_name">我要骑车</string>
-    <string name="btn_scan">扫码骑车</string>
-    <string name="btn_finish">结束用车</string>
-    <string name="unlock_time">开锁时间：%1$s</string>
-    <string name="title_unlock">车辆解锁</string>
-    <string name="tip_password">解锁密码</string>
-    <string name="tip_wait">请稍候</string>
-    <string name="tip_open_gps">请打开手机定位！</string>
-    <string name="ok">确定</string>
-    <string name="cancel">取消</string>
-    <string name="bike_name_mo">摩拜单车</string>
-    <string name="bike_name_ofo">ofo小黄车</string>
-    <string name="label_support_bikes">支持以下单车</string>
-    <string name="tip_locating">定位中，请稍后！</string>
+    <string name="app_name">签到</string>
+    <string name="btn_scan">扫描</string>
+    <string name="btn_import">导入</string>
+    <string name="btn_export">导出</string>
+    <string name="btn_mark">录奖</string>
+    <string name="btn_query">兑奖</string>
+    <string name="sign">已签到</string>
+    <string name="result">%1$s 签到成功</string>
+    <string name="duplicate">%1$s 重复签到</string>
+    <string name="hint_prize">请输入奖项</string>
 </resources>

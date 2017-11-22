@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     dataBinding {
         enabled true
     }
 
     defaultConfig {
-        applicationId "ai.woyao.anything.bike"
+        applicationId "com.lucky.sign"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,16 +19,8 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("../anything51.jks")
-            storePassword STORE_PASSWORD
-            keyAlias KEY_ALIAS
-            keyPassword KEY_PASSWORD
         }
         release {
-            storeFile file("../anything51.jks")
-            storePassword STORE_PASSWORD
-            keyAlias KEY_ALIAS
-            keyPassword KEY_PASSWORD
         }
     }
 
@@ -37,16 +29,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+        }
+    }
 
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${variant.buildType.getName()}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-                }
-            }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Scan" + "_V" + defaultConfig.versionName + "_" + buildType.name + ".apk"
         }
     }
 }
@@ -56,29 +44,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile project(':android')
-
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.code.gson:gson:2.7'
-
-    // retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-
-    // rxjava
-    compile 'io.reactivex:rxjava:1.2.1'
-    compile 'io.reactivex:rxandroid:1.2.1'
-
-    // 友盟统计
-    // compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.umeng.analytics:analytics:6.1.1'
-
-    // 高德地图
-    compile 'com.amap.api:location:latest.integration'
-
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     testCompile 'junit:junit:4.12'
+    implementation files('src/main/libs/jxl.jar')
 }

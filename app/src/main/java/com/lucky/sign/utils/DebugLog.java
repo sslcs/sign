@@ -1,13 +1,14 @@
-package ai.woyao.anything.bike.utils;
+package com.lucky.sign.utils;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.lucky.sign.BuildConfig;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import ai.woyao.anything.bike.BuildConfig;
 
 /**
  * Created by LiuCongshan on 2015/7/8 10:05.
@@ -45,8 +46,7 @@ public class DebugLog {
         Log.e(className, createLog(message));
     }
 
-    public static void e(Throwable e)
-    {
+    public static void e(Throwable e) {
         if (!isDebuggable()) {
             return;
         }

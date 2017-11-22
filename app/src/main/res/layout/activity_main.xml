@@ -1,68 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <RelativeLayout
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:background="@android:color/white"
         tools:context=".bike.ui.MainActivity">
-        <include layout="@layout/include_title"/>
 
         <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/stroke_yellow"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
             android:gravity="center"
-            android:onClick="onClickNew"
-            android:padding="10dp"
-            android:text="@string/btn_scan"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickNew"
-            android:layout_centerInParent="true"
-            android:src="@drawable/btn_unlock"/>
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:textColor="#333333"
-            android:text="@string/label_support_bikes"
-            android:layout_marginBottom="20dp"
-            android:layout_above="@+id/v_bikes"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-        <RelativeLayout
-            android:id="@+id/v_bikes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/tv_scan"
+            style="@style/TextButton"
+            android:onClick="onClickScan"
+            android:text="@string/btn_scan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result" />
 
-            <TextView
-                android:id="@+id/tv_ofo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_ofo"
-                android:drawablePadding="5dp"
-                android:paddingBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:textColor="#333333"
-                android:text="@string/bike_name_ofo"/>
-            <TextView
-                android:layout_toRightOf="@id/tv_ofo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_mo"
-                android:drawablePadding="5dp"
-                android:paddingBottom="20dp"
-                android:textColor="#333333"
-                android:text="@string/bike_name_mo"/>
-        </RelativeLayout>
-    </RelativeLayout>
+        <Button
+            android:id="@+id/tv_import"
+            style="@style/TextButton"
+            android:onClick="onClickImport"
+            android:text="@string/btn_import"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_scan" />
+
+        <Button
+            android:id="@+id/tv_export"
+            style="@style/TextButton"
+            android:onClick="onClickExport"
+            android:text="@string/btn_export"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_import" />
+
+        <Button
+            android:id="@+id/btn_mark"
+            style="@style/TextButton"
+            android:onClick="onClickMark"
+            android:text="@string/btn_mark"
+            app:layout_constraintEnd_toStartOf="@+id/btn_query"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_export" />
+
+        <Button
+            android:id="@+id/btn_query"
+            style="@style/TextButton"
+            android:onClick="onClickQuery"
+            android:text="@string/btn_query"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_mark"
+            app:layout_constraintTop_toBottomOf="@+id/tv_export" />
+    </android.support.constraint.ConstraintLayout>
 </layout>
