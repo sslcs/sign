@@ -8,5 +8,8 @@
     <string name="sign">已签到</string>
     <string name="result">%1$s 签到成功</string>
     <string name="duplicate">%1$s 重复签到</string>
+    <string name="no_prize">%1$s 未中奖</string>
+    <string name="has_prize">%1$s 获得 %2$s</string>
+    <string name="exchanged">%1$s 已领取 %2$s</string>
     <string name="hint_prize">请输入奖项</string>
 </resources>

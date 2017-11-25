@@ -26,6 +26,7 @@ import jxl.write.WriteException;
 
 public class MainActivity extends ScanActivity {
     private ActivityMainBinding mBinding;
+    private boolean isQuery = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +36,38 @@ public class MainActivity extends ScanActivity {
 
     @Override
     protected void handleResult(String result) {
+        if (isQuery) {
+            isQuery = false;
+            query(result);
+            return;
+        }
+
         if (sign(result)) {
             mBinding.tvResult.setText(getString(R.string.result, result));
         } else {
             mBinding.tvResult.setText(getString(R.string.duplicate, result));
+        }
+    }
+
+    private void query(String result) {
+        String number = result.split(" ")[0];
+        Cursor cursor = mHelper.query(number);
+        if (!cursor.isAfterLast()) {
+            cursor.moveToFirst();
+            Record record = mHelper.convert(cursor);
+            cursor.close();
+
+            String tip;
+            if (TextUtils.isEmpty(record.prize)) {
+                tip = getString(R.string.no_prize, result);
+            } else if (TextUtils.isEmpty(record.exchange)) {
+                tip = getString(R.string.has_prize, result, record.prize);
+                record.exchange = Record.EXCHANGE;
+                mHelper.update(record);
+            } else {
+                tip = getString(R.string.exchanged, result, record.prize);
+            }
+            mBinding.tvResult.setText(tip);
         }
     }
 
@@ -121,13 +150,12 @@ public class MainActivity extends ScanActivity {
 
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         String fileName = "人员名单.xls";
-        String tempFile = "temp.xls";
+        String tempFile = "人员名单_new.xls";
 
         try {
             Workbook rwb = Workbook.getWorkbook(new File(dir, fileName));
             WritableWorkbook wwb = Workbook.createWorkbook(new File(dir, tempFile), rwb);
             WritableSheet ws = wwb.getSheet(0);
-            WritableCell wc;
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 Record record = mHelper.convert(cursor);
@@ -166,6 +194,8 @@ public class MainActivity extends ScanActivity {
     }
 
     public void onClickQuery(View view) {
+        isQuery = true;
+        onClickScan(view);
     }
 
     public void onClickMark(View view) {

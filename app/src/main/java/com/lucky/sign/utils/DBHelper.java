@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 
 import com.lucky.sign.ui.Record;
 
@@ -123,14 +124,35 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    private boolean isEmpty(String str)
+    {
+        return TextUtils.isEmpty(str) || "null".equals(str);
+    }
+
     public void importRecord(Record record) {
         Cursor cursor = queryInput(record.number);
         if (cursor == null || cursor.isAfterLast()) {
             insert(record);
-        } else if (Record.FLAG_YES.equals(record.flag)) {
-            cursor.moveToFirst();
-            record.id = cursor.getInt(cursor.getColumnIndex(ID));
-            updateImport(record);
+            return;
+        }
+
+        cursor.moveToFirst();
+        Record local = convert(cursor);
+        boolean update = false;
+        if (isEmpty(local.flag) && !isEmpty(record.flag)) {
+            update = true;
+            local.flag = record.flag;
+        }
+        if (isEmpty(local.prize) && !isEmpty(record.prize)) {
+            update = true;
+            local.prize = record.prize;
+        }
+        if (isEmpty(local.exchange) && !isEmpty(record.exchange)) {
+            update = true;
+            local.exchange = record.exchange;
+        }
+        if (update) {
+            updateImport(local);
         }
     }
 }
