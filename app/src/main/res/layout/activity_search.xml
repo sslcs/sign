@@ -25,8 +25,8 @@
             android:id="@+id/v_back"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:paddingLeft="@dimen/standard_padding"
             android:onClick="onClickBack"
+            android:paddingLeft="@dimen/standard_padding"
             android:tint="@color/main_red"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -37,35 +37,54 @@
             android:id="@+id/et_prize"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/stroke_black"
             android:gravity="center"
             android:hint="@string/hint_prize"
             android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
+        <Button
+            android:id="@+id/tv_search"
+            style="@style/TextButton"
+            android:layout_width="100dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onClickSearch"
+            android:text="@string/btn_search"
+            app:layout_constraintBottom_toBottomOf="@+id/et_prize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/et_prize"
+            app:layout_constraintTop_toTopOf="@+id/et_prize" />
+
         <TextView
-            android:id="@+id/tv_result"
+            android:id="@+id/tv_count"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="20dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_prize" />
 
-        <Button
-            android:id="@+id/btn_scan"
-            style="@style/TextButton"
-            android:onClick="onClickScan"
-            android:text="@string/btn_scan"
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_result" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_count" />
     </android.support.constraint.ConstraintLayout>
 </layout>

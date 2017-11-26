@@ -193,12 +193,16 @@ public class MainActivity extends ScanActivity {
         }
     }
 
-    public void onClickQuery(View view) {
+    public void onClickExchange(View view) {
         isQuery = true;
         onClickScan(view);
     }
 
     public void onClickMark(View view) {
         startActivity(new Intent(this, MarkActivity.class));
+    }
+
+    public void onClickSearch(View view) {
+        startActivity(new Intent(this, SearchActivity.class));
     }
 }

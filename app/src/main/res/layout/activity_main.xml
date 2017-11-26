@@ -31,7 +31,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
         <Button
-            android:id="@+id/tv_scan"
+            android:id="@+id/btn_scan"
             style="@style/TextButton"
             android:onClick="onClickScan"
             android:text="@string/btn_scan"
@@ -40,39 +40,49 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_result" />
 
         <Button
-            android:id="@+id/tv_import"
+            android:id="@+id/btn_import"
             style="@style/TextButton"
             android:onClick="onClickImport"
             android:text="@string/btn_import"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_export"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_scan" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_scan" />
 
         <Button
-            android:id="@+id/tv_export"
+            android:id="@+id/btn_export"
             style="@style/TextButton"
             android:onClick="onClickExport"
             android:text="@string/btn_export"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_import"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_import" />
+            app:layout_constraintStart_toEndOf="@+id/btn_import"
+            app:layout_constraintTop_toTopOf="@+id/btn_import" />
 
         <Button
             android:id="@+id/btn_mark"
             style="@style/TextButton"
             android:onClick="onClickMark"
             android:text="@string/btn_mark"
-            app:layout_constraintEnd_toStartOf="@+id/btn_query"
+            app:layout_constraintEnd_toStartOf="@+id/btn_search"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_export" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_export" />
 
         <Button
-            android:id="@+id/btn_query"
+            android:id="@+id/btn_search"
             style="@style/TextButton"
-            android:onClick="onClickQuery"
-            android:text="@string/btn_query"
+            android:onClick="onClickSearch"
+            android:text="@string/btn_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_mark"
-            app:layout_constraintTop_toBottomOf="@+id/tv_export" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_export" />
+
+        <Button
+            android:id="@+id/btn_exchange"
+            style="@style/TextButton"
+            android:onClick="onClickExchange"
+            android:text="@string/btn_exchange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_search" />
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MarkActivity" />
+        <activity android:name=".ui.SearchActivity" />
     </application>
 
 </manifest>

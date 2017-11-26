@@ -45,6 +45,9 @@ public class MarkActivity extends ScanActivity {
             cursor.close();
             record.prize = prize;
             mHelper.update(record);
+            String sb = result + " " + prize + "\n" +
+                    getString(R.string.count_record, mHelper.queryCount(prize));
+            mBinding.tvResult.setText(sb);
         }
     }
 

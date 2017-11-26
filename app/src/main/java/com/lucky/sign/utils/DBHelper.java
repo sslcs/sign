@@ -72,6 +72,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.query(TABLE_NAME, null, NUMBER + "=?", new String[]{number}, null, null, null);
     }
 
+    //查询未领奖
+    public Cursor queryPrize(String key) {
+        SQLiteDatabase db = getReadableDatabase();
+        if (TextUtils.isEmpty(key)) {
+            String selection = PRIZE + " IS NOT NULL AND " + PRIZE + " != '' AND (" + EXCHANGE + " IS NULL OR " + EXCHANGE + " = '')";
+            return db.query(TABLE_NAME, null, selection, null, null, null, null);
+        }
+        String selection = PRIZE + "=? AND (" + EXCHANGE + " IS NULL OR " + EXCHANGE + " = '')";
+        return db.query(TABLE_NAME, null, selection, new String[]{key}, null, null, null);
+    }
+
+    //查询已录入人数
+    public int queryCount(String prize) {
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = PRIZE + "=?";
+        Cursor cursor = db.query(TABLE_NAME, null, selection, new String[]{prize}, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
     private Cursor queryInput(String number) {
         return db.query(TABLE_NAME, null, NUMBER + "=?", new String[]{number}, null, null, null);
     }
@@ -124,8 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    private boolean isEmpty(String str)
-    {
+    private boolean isEmpty(String str) {
         return TextUtils.isEmpty(str) || "null".equals(str);
     }
 
